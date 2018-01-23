@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        flag = 0;
+        data = '[{"marka":"audi","model":"q7","boja":"#ff0000","max":"230"},' +
+            '{"marka":"bmw","model":"x7","boja":"#ff0ff0","max":250},' +
+            '{"marka":"chevrolet","model":"camaro","boja":"#0000ff","max":199},' +
+            '{"marka":"toyota","model":"prius","boja":"#f0000f","max":300}]';
+
+        $(document).ready(function(){
+            function display(){
+                for(i=0; i<string.length; i++){
+                    obj = string[i];
+                    child = document.createElement("p");
+                    child.innerHTML = "<b>marka:</b>"+obj.marka+" <b>model:</b>"+obj.model+
+                        " <b>boja:</b><input type='color' value='"+obj.boja+"'> <b>max brzina:</b><input id='speed' index='"+i+"' type='number' value='"+obj.max+"'>";
+                    if(flag)
+                        child.style.backgroundColor = obj.boja;
+                    $("#d1").append(child);
+                }
+            }
+
+            $(document).on("change", "#speed", function(){
+                index = $(this).attr("index");
+                newValue = $(this).val();
+                string[index].max = newValue;
+                alert(newValue);
+            });
+            var string = JSON.parse(data);
+            display();
+            btn = (document).createElement("button");
+            btn.setAttribute("id","sort");
+            txt = (document).createTextNode("sortiraj");
+            btn.appendChild(txt);
+            $("#d1").after(btn);
+
+
+            $("#sort").click(function(){
+                string.sort(function(a,b){return a.max-b.max;});
+                $("#d1").html('');
+                flag = 1;
+                display();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="d1" style="width:50%">
+
+    </div>
+</body>
+</html>
